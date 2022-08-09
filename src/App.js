@@ -1,58 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
-}
+import {
+	Box,
+	createTheme,
+	TextField,
+	ThemeProvider,
+	Typography,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import { Stack } from "@mui/system";
+const App = () => {
+	const theme = createTheme({
+		palette: {
+			warning: {
+				main: "#FFF500",
+				light: "#FAFF00",
+				dark: "#FFF500",
+			},
+		},
+	});
+	return (
+		<ThemeProvider theme={theme}>
+			<Stack
+				direction="row"
+				justifyContent="space-between"
+				alignItems="center"
+				sx={{
+					padding: "102px 130px",
+					backgroundImage: "linear-gradient(#383838,#8A8A8A)",
+				}}
+			>
+				<Typography color="info.contrastText" variant="h3">
+					Movie<span style={{ color: "#FAFF00" }}>X</span>
+				</Typography>
+				<input type="search" className="search-field" />
+			</Stack>
+		</ThemeProvider>
+	);
+};
 
 export default App;
