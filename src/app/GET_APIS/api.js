@@ -17,11 +17,15 @@ export const get_Videos = (movieId) =>
 export const get_Credits = (movieId) =>
 	`${host}/movie/${movieId}/credits?api_key=${api_key}&language=en-US`;
 
-export const get_Popular_Movies = () =>
-	`${host}/movie/popular?api_key=${api_key}&language=en-US&page=1`;
+export const get_Popular_Movies = (page) =>
+	`${host}/movie/popular?api_key=${api_key}&language=en-US&page=${page}`;
 
-export const get_Top_Rated = () =>
-	`${host}/movie/top_rated?api_key=${api_key}&language=en-US&page=1`;
+export const get_Top_Rated = (page) =>
+	`${host}/movie/top_rated?api_key=${api_key}&language=en-US&page=${page}`;
+export const get_Now_Playing = () =>
+	`${host}movie/now_playing?api_key=${api_key}&language=en-US&page=1`;
+export const get_Upcoming = () =>
+	`${host}movie/upcoming?api_key=${api_key}&language=en-US&page=1`;
 
 // const fetchMovies = async (movie) => {
 // 	const moviesJson = await (await fetch(get_Movies(movie))).json();

@@ -1,48 +1,43 @@
-import { Box, createTheme, ThemeProvider, Typography } from "@mui/material";
-import { Stack } from "@mui/system";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPopularMovies } from "./app/features/moviesReducer";
+import Header from "./app/components/header/Header";
+import TopRated from "./app/components/top-rated/TopRated";
+import MostPopular from "./app/components/most-popular/most-popular";
+import {
+	fetchPopularMovies,
+	fetchTopRatedMovies,
+} from "./app/features/moviesReducer";
+import Footer from "./app/components/Footer/Footer";
 const App = () => {
-	const status = useSelector((state) => state.movies.status);
+	const popularStatus = useSelector(
+		(state) => state.movies.popularMovies.status
+	);
+	const topRatedStatus = useSelector(
+		(state) => state.movies.topRatedMovies.status
+	);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		const getPopularMovies = async () => {
-			if (status === "idle") {
-				dispatch(fetchPopularMovies());
+			if (popularStatus === "idle") {
+				dispatch(fetchPopularMovies(1));
+			}
+		};
+		const getTopRatedMovies = async () => {
+			if (popularStatus === "idle") {
+				dispatch(fetchTopRatedMovies(2));
 			}
 		};
 		getPopularMovies();
+		getTopRatedMovies();
 	});
 
-	const theme = createTheme({
-		palette: {
-			warning: {
-				main: "#FFF500",
-				light: "#FAFF00",
-				dark: "#FFF500",
-			},
-		},
-	});
 	return (
-		<ThemeProvider theme={theme}>
-			<Box>
-				<Stack
-					direction="row"
-					justifyContent="space-between"
-					alignItems="center"
-					sx={{
-						padding: "102px 130px",
-						backgroundImage: "linear-gradient(#383838,#8A8A8A)",
-					}}
-				>
-					<Typography color="info.contrastText" variant="h3">
-						Movie<span style={{ color: "#FAFF00" }}>X</span>
-					</Typography>
-					<input type="search" className="search-field" />
-				</Stack>
-			</Box>
-		</ThemeProvider>
+		<div>
+			<Header />
+			<MostPopular />
+			<TopRated />
+			<Footer />
+		</div>
 	);
 };
 
