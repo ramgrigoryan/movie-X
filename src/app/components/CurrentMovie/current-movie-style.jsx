@@ -8,6 +8,7 @@ export const MovieInfoContainer = styled.div`
 	grid-template-columns: 1fr;
 `;
 export const MovieSpecificationContainer = styled.div`
+	overflow: hidden;
 	display: grid;
 	grid-template-columns: 400px 1fr;
 	grid-gap: 160px;
@@ -42,7 +43,6 @@ export const InfoLines = styled.div`
 `;
 export const CastContainer = styled.div`
 	display: flex;
-	max-width: 1200px;
 	flex-direction: row;
 	align-items: center;
 	padding: 40px 0;

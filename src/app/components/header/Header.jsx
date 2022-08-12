@@ -1,18 +1,26 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../Logo/Logo";
-import MoviesPreview from "../movies-preview/MoviesPreview";
 import {
 	HeaderContainer,
 	HeadlineContainer,
 	SearchField,
-	PreviewText,
 } from "./header-style";
 
 const Header = ({ children }) => {
+	const [searchWord, setSearchWord] = useState("");
+	const navigate = useNavigate();
 	return (
 		<HeaderContainer>
 			<HeadlineContainer>
 				<Logo mode={"light"} />
-				<SearchField />
+
+				<form onSubmit={() => navigate(`/search/${searchWord}`)}>
+					<SearchField
+						value={searchWord}
+						onChange={(ev) => setSearchWord(ev.target.value)}
+					/>
+				</form>
 			</HeadlineContainer>
 			{children.length ? [...children] : children}
 		</HeaderContainer>

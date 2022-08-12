@@ -17,6 +17,7 @@ const CurrentMovie = () => {
 	const dispatch = useDispatch();
 	const params = useParams();
 	const { currentMovieId } = params;
+	console.log(currentMovieId);
 	const { status, movie, credits } = useSelector(
 		(state) => state.movies.currentMovie
 	);
@@ -118,6 +119,7 @@ const CurrentMovie = () => {
 												return actor;
 											}
 										})
+										.filter((actor, index) => index < 7)
 										.map(
 											(actor) =>
 												actor.profile_path && (

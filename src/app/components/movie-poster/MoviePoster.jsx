@@ -8,7 +8,7 @@ const MoviePoster = ({ movie, titleStatus }) => {
 		<div
 			onClick={() => {
 				dispatch(setCurrentMovie(movie));
-				navigate(movie.id.toString());
+				navigate(`movie/${movie.id.toString()}`);
 			}}
 		>
 			<img
