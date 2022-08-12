@@ -32,10 +32,19 @@ export const fetchTopRatedMovies = createAsyncThunk(
 		return response;
 	}
 );
+export const fetchCurrentMovieDetails = createAsyncThunk(
+	"movies/fetchCurrentMovieDetails",
+	async (movieId) => {
+		const movie = await (await fetch(get_Details(movieId))).json();
+		const movieCredits = await (await fetch(get_Credits(movieId))).json();
+		return { movie, movieCredits };
+	}
+);
 
 const initialState = {
 	host,
 	api_key,
+	currentMovie: { status: "idle", movie: null, error: null, credits: null },
 	popularMovies: { status: "idle", movies: [], error: null },
 	topRatedMovies: { status: "idle", movies: [], error: null },
 };
@@ -43,7 +52,14 @@ const initialState = {
 const moviesReducer = createSlice({
 	name: "movies",
 	initialState,
-	reducers: {},
+	reducers: {
+		setCurrentMovie: (state, action) => {
+			state.currentMovie.movie = action.payload;
+		},
+		restoreCurrentMovieStatus: (state) => {
+			state.currentMovie.status = "idle";
+		},
+	},
 	extraReducers: (builder) => {
 		//Most Popular
 		builder.addCase(fetchPopularMovies.pending, (state, action) => {
@@ -69,7 +85,22 @@ const moviesReducer = createSlice({
 			state.topRatedMovies.status = "failed";
 			state.topRatedMovies.error = action.error.message;
 		});
+		//Movie Details
+		builder.addCase(fetchCurrentMovieDetails.pending, (state, action) => {
+			state.currentMovie.status = "loading";
+		});
+		builder.addCase(fetchCurrentMovieDetails.fulfilled, (state, action) => {
+			state.currentMovie.status = "succeeded";
+			state.currentMovie.movie = action.payload.movie;
+			state.currentMovie.credits = action.payload.movieCredits;
+		});
+		builder.addCase(fetchCurrentMovieDetails.rejected, (state, action) => {
+			state.currentMovie.status = "failed";
+			state.currentMovie.error = action.error.message;
+		});
 	},
 });
 
+export const { setCurrentMovie, restoreCurrentMovieStatus } =
+	moviesReducer.actions;
 export default moviesReducer.reducer;

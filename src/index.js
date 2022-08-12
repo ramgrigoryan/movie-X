@@ -15,7 +15,7 @@ root.render(
 		<Provider store={store}>
 			<Routes>
 				<Route path="/" element={<App />} />
-				<Route path=":currentMovieName" element={<CurrentMovie />} />
+				<Route path=":currentMovieId" element={<CurrentMovie />} />
 			</Routes>
 		</Provider>
 	</BrowserRouter>

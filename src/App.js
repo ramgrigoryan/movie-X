@@ -6,9 +6,13 @@ import MostPopular from "./app/components/most-popular/most-popular";
 import {
 	fetchPopularMovies,
 	fetchTopRatedMovies,
+	restoreCurrentMovieStatus,
 } from "./app/features/moviesReducer";
 import Footer from "./app/components/Footer/Footer";
+import MoviesPreview from "./app/components/movies-preview/MoviesPreview";
+import { PreviewText } from "./app-style";
 const App = () => {
+	const currentMovie = useSelector((state) => state.movies.currentMovie);
 	const popularStatus = useSelector(
 		(state) => state.movies.popularMovies.status
 	);
@@ -17,13 +21,14 @@ const App = () => {
 	);
 	const dispatch = useDispatch();
 	useEffect(() => {
+		currentMovie && dispatch(restoreCurrentMovieStatus());
 		const getPopularMovies = async () => {
 			if (popularStatus === "idle") {
 				dispatch(fetchPopularMovies(1));
 			}
 		};
 		const getTopRatedMovies = async () => {
-			if (popularStatus === "idle") {
+			if (topRatedStatus === "idle") {
 				dispatch(fetchTopRatedMovies(2));
 			}
 		};
@@ -33,7 +38,16 @@ const App = () => {
 
 	return (
 		<div>
-			<Header />
+			<Header>
+				<MoviesPreview />
+				<PreviewText>
+					<h5>Watch everywhere.</h5>
+					<p>
+						Stream unlimited movies and TV shows on your phone, tablet, laptop,
+						and TV without paying more.
+					</p>
+				</PreviewText>
+			</Header>
 			<MostPopular />
 			<TopRated />
 			<Footer />

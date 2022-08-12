@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { MostPopularContainer, MostPopularPreview } from "./most-popular-style";
+import MoviePoster from "../movie-poster/MoviePoster";
 const MostPopular = () => {
 	const topRatedPreview = useSelector(
 		(state) => state.movies.popularMovies.movies
@@ -9,13 +10,7 @@ const MostPopular = () => {
 			<h5> Most Popular Movies</h5>
 			<MostPopularPreview>
 				{topRatedPreview.map((movie) => (
-					<div key={movie.id}>
-						<img
-							src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-							alt={movie.original_title}
-						/>
-						<p>{movie.original_title}</p>
-					</div>
+					<MoviePoster key={movie.id} movie={movie} titleStatus={true} />
 				))}
 			</MostPopularPreview>
 		</MostPopularContainer>

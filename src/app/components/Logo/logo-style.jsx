@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const LogoText = styled.div`
+	cursor: pointer;
 	font-size: 3em;
 	color: #fff;
 `;
