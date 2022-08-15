@@ -5,14 +5,20 @@ import {
 	api_key,
 	get_Movies,
 	get_Details,
-	get_Images,
 	get_Videos,
 	get_Credits,
 	get_Popular_Movies,
 	get_Top_Rated,
-	get_Now_Playing,
-	get_Upcoming,
+	get_Similar_Movies,
 } from "../GET_APIS/api";
+
+export const fetchSearchedMovies = createAsyncThunk(
+	"movies/fetchSearchedMovies",
+	async (movieTitle) => {
+		const response = await (await fetch(get_Movies(movieTitle))).json();
+		return response.results;
+	}
+);
 
 export const fetchPopularMovies = createAsyncThunk(
 	"movies/fetchPopularMovies",
@@ -32,6 +38,15 @@ export const fetchTopRatedMovies = createAsyncThunk(
 		return response;
 	}
 );
+
+export const fetchSimilarMovies = createAsyncThunk(
+	"movies/fetchSimilarMovies",
+	async (movieId) => {
+		const response = await (await fetch(get_Similar_Movies(movieId))).json();
+		return response.results;
+	}
+);
+
 export const fetchCurrentMovieDetails = createAsyncThunk(
 	"movies/fetchCurrentMovieDetails",
 	async (movieId) => {
@@ -41,12 +56,29 @@ export const fetchCurrentMovieDetails = createAsyncThunk(
 	}
 );
 
+export const fetchTrailers = createAsyncThunk(
+	"movies/fetchTrailers",
+	async (movieId) => {
+		const response = await (await fetch(get_Videos(movieId))).json();
+		console.log(response);
+		return response.results;
+	}
+);
+
 const initialState = {
 	host,
 	api_key,
-	currentMovie: { status: "idle", movie: null, error: null, credits: null },
+	currentMovie: {
+		status: "idle",
+		movie: null,
+		error: null,
+		credits: null,
+		trailers: null,
+		similars: null,
+	},
 	popularMovies: { status: "idle", movies: [], error: null },
 	topRatedMovies: { status: "idle", movies: [], error: null },
+	searchedMovies: { status: "idle", movies: [], error: null },
 };
 
 const moviesReducer = createSlice({
@@ -97,6 +129,26 @@ const moviesReducer = createSlice({
 		builder.addCase(fetchCurrentMovieDetails.rejected, (state, action) => {
 			state.currentMovie.status = "failed";
 			state.currentMovie.error = action.error.message;
+		});
+		//Trailers
+		builder.addCase(fetchTrailers.fulfilled, (state, action) => {
+			state.currentMovie.trailers = action.payload;
+		});
+		//Similar
+		builder.addCase(fetchSimilarMovies.fulfilled, (state, action) => {
+			state.currentMovie.similars = action.payload;
+		});
+		//fetchSearchedMovies
+		builder.addCase(fetchSearchedMovies.pending, (state, action) => {
+			state.searchedMovies.status = "loading";
+		});
+		builder.addCase(fetchSearchedMovies.fulfilled, (state, action) => {
+			state.searchedMovies.status = "succeeded";
+			state.searchedMovies.movies = action.payload;
+		});
+		builder.addCase(fetchSearchedMovies.rejected, (state, action) => {
+			state.searchedMovies.status = "failed";
+			state.searchedMovies.error = action.error.message;
 		});
 	},
 });

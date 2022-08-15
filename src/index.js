@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CurrentMovie from "./app/components/CurrentMovie/CurrentMovie";
+import SearchPage from "./app/components/Search-page/SearchPage";
 const container = document.getElementById("root");
 const root = createRoot(container);
 
@@ -16,6 +17,7 @@ root.render(
 			<Routes>
 				<Route path="/" element={<App />} />
 				<Route path="movie/:currentMovieId" element={<CurrentMovie />} />
+				<Route path="search/:movieName" element={<SearchPage />} />
 			</Routes>
 		</Provider>
 	</BrowserRouter>

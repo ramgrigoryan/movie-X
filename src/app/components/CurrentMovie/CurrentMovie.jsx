@@ -1,7 +1,11 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchCurrentMovieDetails } from "../../features/moviesReducer";
+import {
+	fetchCurrentMovieDetails,
+	fetchTrailers,
+	fetchSimilarMovies,
+} from "../../features/moviesReducer";
 import Footer from "../Footer/Footer";
 import {
 	CurrentMovieContainer,
@@ -10,6 +14,10 @@ import {
 	MovieDescriptionContainer,
 	InfoLines,
 	CastContainer,
+	MovieTrailersContainer,
+	MovieContainers,
+	SimilarMoviesContainer,
+	SimilarPostersContainer,
 } from "./current-movie-style";
 import Header from "../header/Header";
 import MoviePoster from "../movie-poster/MoviePoster";
@@ -17,14 +25,16 @@ const CurrentMovie = () => {
 	const dispatch = useDispatch();
 	const params = useParams();
 	const { currentMovieId } = params;
-	console.log(currentMovieId);
-	const { status, movie, credits } = useSelector(
+	const { status, movie, credits, trailers, similars } = useSelector(
 		(state) => state.movies.currentMovie
 	);
 	useEffect(() => {
+		console.log("useEffect");
 		if (status === "idle") {
-			console.log("fetch");
+			console.log(currentMovieId);
 			dispatch(fetchCurrentMovieDetails(currentMovieId));
+			dispatch(fetchTrailers(currentMovieId));
+			dispatch(fetchSimilarMovies(currentMovieId));
 		}
 	});
 	return (
@@ -146,8 +156,42 @@ const CurrentMovie = () => {
 							</CastContainer>
 						</MovieDescriptionContainer>
 					</MovieSpecificationContainer>
+					{trailers && (
+						<MovieContainers>
+							<h2>Trailers</h2>
+							<MovieTrailersContainer>
+								{trailers
+									.filter((film, index) => index < 4)
+									.map((video) => {
+										return (
+											<iframe
+												key={video.key}
+												width="400"
+												height="280"
+												src={`https://www.youtube.com/embed/${video.key}`}
+												title={video.name}
+												frameBorder="0"
+												allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+												allowFullScreen
+											></iframe>
+										);
+									})}
+							</MovieTrailersContainer>
+						</MovieContainers>
+					)}
 				</MovieInfoContainer>
 			</Header>
+			<SimilarMoviesContainer>
+				<h2>Similar Movies</h2>
+				<SimilarPostersContainer>
+					{similars &&
+						similars
+							.filter((movie, index) => index < 4)
+							.map((movie) => (
+								<MoviePoster key={movie.id} movie={movie} titleStatus={true} />
+							))}
+				</SimilarPostersContainer>
+			</SimilarMoviesContainer>
 			<Footer />
 		</CurrentMovieContainer>
 	);

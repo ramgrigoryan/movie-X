@@ -15,6 +15,5 @@ export const TopRatedPreview = styled.div`
 	img {
 		width: 350px;
 		height: 400px;
-		cursor: pointer;
 	}
 `;

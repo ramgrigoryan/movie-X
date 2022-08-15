@@ -4,7 +4,6 @@ export const CurrentMovieContainer = styled.div``;
 export const MovieInfoContainer = styled.div`
 	padding-top: 102px;
 	display: grid;
-	grid-template-rows: 2fr 1fr;
 	grid-template-columns: 1fr;
 `;
 export const MovieSpecificationContainer = styled.div`
@@ -56,5 +55,41 @@ export const CastContainer = styled.div`
 		width: 120px;
 		border-radius: 50%;
 		margin-right: 20px;
+	}
+`;
+
+export const MovieTrailersContainer = styled.div`
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 20px;
+	iframe {
+		border-radius: 8px;
+	}
+`;
+export const MovieContainers = styled.div`
+	padding-top: 130px;
+	padding-bottom: 130px;
+	color: #fff;
+	text-align: center;
+	h2 {
+		margin-bottom: 100px;
+	}
+`;
+export const SimilarMoviesContainer = styled.div`
+	padding: 102px 130px;
+	h2 {
+		color: #fff;
+	}
+`;
+export const SimilarPostersContainer = styled.div`
+	background-color: #fff;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+
+	img {
+		width: 350px;
+		height: 400px;
+		cursor: pointer;
+		border-radius: 8px;
 	}
 `;

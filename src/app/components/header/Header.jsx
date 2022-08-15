@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchSearchedMovies } from "../../features/moviesReducer";
 import Logo from "../Logo/Logo";
 import {
 	HeaderContainer,
@@ -8,6 +10,7 @@ import {
 } from "./header-style";
 
 const Header = ({ children }) => {
+	const dispatch = useDispatch();
 	const [searchWord, setSearchWord] = useState("");
 	const navigate = useNavigate();
 	return (
@@ -15,14 +18,21 @@ const Header = ({ children }) => {
 			<HeadlineContainer>
 				<Logo mode={"light"} />
 
-				<form onSubmit={() => navigate(`/search/${searchWord}`)}>
+				<form
+					method="GET"
+					onSubmit={(ev) => {
+						ev.preventDefault();
+						dispatch(fetchSearchedMovies(searchWord));
+						navigate(`/search/${searchWord}`);
+					}}
+				>
 					<SearchField
 						value={searchWord}
 						onChange={(ev) => setSearchWord(ev.target.value)}
 					/>
 				</form>
 			</HeadlineContainer>
-			{children.length ? [...children] : children}
+			{children && children.length ? [...children] : children}
 		</HeaderContainer>
 	);
 };

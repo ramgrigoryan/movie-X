@@ -13,11 +13,11 @@ export const SearchField = styled.input`
 	box-sizing: border-box;
 	border: 1px solid #faff00;
 	background: transparent;
-	height: 35px;
-	width: 200px;
-	padding: 15px 8px;
+	height: 80px;
+	width: 400px;
+	padding: 15px 25px;
 	font-family: "Roboto";
-	font-size: 1.2em;
+	font-size: 18px;
 	color: #fff;
 	border-radius: 17px;
 	&:focus {
