@@ -12,4 +12,8 @@ export const MostPopularPreview = styled.div`
 	grid-template-rows: 1;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: 70px;
+	img {
+		width: 350px;
+		height: 400px;
+	}
 `;

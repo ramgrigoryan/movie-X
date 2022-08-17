@@ -37,6 +37,9 @@ const CurrentMovie = () => {
 			dispatch(fetchSimilarMovies(currentMovieId));
 		}
 	});
+	if (!movie) {
+		return <div>Loading...</div>;
+	}
 	return (
 		<CurrentMovieContainer>
 			<Header>
